@@ -21,6 +21,12 @@ func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 	response := ""
 	userName := r.URL.Path
 
+	// ex route: /:username/cem
+	// output: cem
+	if len(r.URL.Path) > 1 {
+		userName = r.URL.Path[len("/:username/"):]
+	}
+
 	// validation stage
 	// r.URL.Path -> params
 	// r.Method -> GET, POST, PUT
@@ -29,11 +35,17 @@ func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 		if userName == "/" {
 			response = c.getService.AllBalanceInfo()
 		} else {
-			// "GET /:username" endpoint
+			// "GET /:username/{userName}" endpoint
 			response = c.getService.BalanceInfo(userName)
 		}
 	} else if r.Method == "PUT" {
-		return
+		// "PUT /" endpoint -> not valid
+		if userName == "/" {
+			return
+		} else {
+			// "PUT /:username/{userName}" endpoint
+			c.putService.SetWallet(userName)
+		}
 	} else if r.Method == "POST" {
 		return
 	} else {

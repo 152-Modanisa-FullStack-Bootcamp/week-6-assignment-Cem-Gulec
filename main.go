@@ -20,7 +20,7 @@ func main() {
 	handler := handler.NewHandler(getService, putService, postService)
 
 	http.HandleFunc("/", handler.Wallet)
-	http.HandleFunc("/:username", handler.Wallet)
+	http.HandleFunc("/:username/", handler.Wallet)
 	err := http.ListenAndServe(":8080", nil)
 
 	if err != nil {

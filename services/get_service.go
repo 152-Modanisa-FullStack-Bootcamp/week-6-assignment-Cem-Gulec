@@ -25,7 +25,7 @@ func (s *GetService) AllBalanceInfo() string {
 func (s *GetService) BalanceInfo(userName string) string {
 	m := s.Data.GetBalanceInfo()
 
-	return strconv.Itoa(m[userName[1:]])
+	return strconv.Itoa(m[userName])
 }
 
 func NewGetService(data data.IData) IGetService {
