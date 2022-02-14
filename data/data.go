@@ -1,13 +1,7 @@
 package data
 
-import (
-	"encoding/json"
-	"strconv"
-)
-
 type IData interface {
-	GetAllBalanceInfo() (string, error)
-	GetBalanceInfo(userName string) (string, error)
+	GetBalanceInfo() map[string]int
 }
 
 type Data struct {
@@ -22,13 +16,8 @@ var Balance = map[string]int{
 	"rıfkı": 42,
 }
 
-func (c *Data) GetAllBalanceInfo() (string, error) {
-	mapJsonFormat, err := json.Marshal(Balance)
-	return string(mapJsonFormat), err
-}
-
-func (c *Data) GetBalanceInfo(userName string) (string, error) {
-	return strconv.Itoa(Balance[userName]), nil
+func (c *Data) GetBalanceInfo() map[string]int {
+	return Balance
 }
 
 func NewData(initialBalanceAmount, minimumBalanceAmount int) IData {

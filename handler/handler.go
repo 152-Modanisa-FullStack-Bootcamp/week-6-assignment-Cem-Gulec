@@ -19,12 +19,19 @@ type Handler struct {
 func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 
 	response := ""
+	userName := r.URL.Path
 
 	// validation stage
 	// r.URL.Path -> params
 	// r.Method -> GET, POST, PUT
 	if r.Method == "GET" {
-		response, _ = c.getService.BalanceInfo(r.URL.Path)
+		// "GET /" endpoint
+		if userName == "/" {
+			response = c.getService.AllBalanceInfo()
+		} else {
+			// "GET /:username" endpoint
+			response = c.getService.BalanceInfo(userName)
+		}
 	} else if r.Method == "PUT" {
 		return
 	} else if r.Method == "POST" {
