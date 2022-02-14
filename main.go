@@ -2,6 +2,7 @@ package main
 
 import (
 	"bootcamp/config"
+	"bootcamp/data"
 	"bootcamp/handler"
 	service "bootcamp/services"
 	"fmt"
@@ -9,9 +10,12 @@ import (
 )
 
 func main() {
-	fmt.Println(config.C.InitialBalanceAmount)
-	service := service.NewGetService()
-	handler := handler.NewHandler(service)
+	initialBalanceAmount := config.C.InitialBalanceAmount
+	minimumBalanceAmount := config.C.MinimumBalanceAmount
+	data := data.NewData(initialBalanceAmount, minimumBalanceAmount)
+
+	getService := service.NewGetService(data)
+	handler := handler.NewHandler(getService)
 
 	http.HandleFunc("/", handler.Wallet)
 	err := http.ListenAndServe(":8080", nil)
