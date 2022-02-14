@@ -3,15 +3,15 @@ package service
 import "bootcamp/data"
 
 type IPostService interface {
-	BalanceInfo(string) (string, error)
+	UpdateWallet(string) int
 }
 
 type PostService struct {
 	Data data.IData
 }
 
-func (*PostService) BalanceInfo(s string) (string, error) {
-	return "hello post service, " + s, nil
+func (p *PostService) UpdateWallet(userName string) int {
+	return p.Data.PostWalletInfo(userName)
 }
 
 func NewPostService(data data.IData) IPostService {

@@ -12,7 +12,8 @@ import (
 func main() {
 	initialBalanceAmount := config.Get().InitialBalanceAmount
 	minimumBalanceAmount := config.Get().MinimumBalanceAmount
-	data := data.NewData(initialBalanceAmount, minimumBalanceAmount)
+	balance := config.Get().Balance
+	data := data.NewData(initialBalanceAmount, minimumBalanceAmount, balance)
 
 	getService := service.NewGetService(data)
 	putService := service.NewPutService(data)

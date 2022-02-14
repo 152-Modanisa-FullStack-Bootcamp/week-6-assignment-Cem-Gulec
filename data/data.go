@@ -1,36 +1,56 @@
 package data
 
+import (
+	"net/http"
+)
+
 type IData interface {
 	GetBalanceInfo() map[string]int
 	PutWallet(string)
+	PostWalletInfo(string) int
 }
 
 type Data struct {
 	initialBalanceAmount int
 	minimumBalanceAmount int
+	balance              int
 }
 
 // key: username
 // value: balance
 var Balance = map[string]int{
-	"cem":   123,
+	"cem":   0,
 	"rıfkı": 42,
 }
 
-func (c *Data) GetBalanceInfo() map[string]int {
+func (*Data) GetBalanceInfo() map[string]int {
 	return Balance
 }
 
-func (c *Data) PutWallet(userName string) {
+func (d *Data) PutWallet(userName string) {
 	// if element with given username exists
 	if _, ok := Balance[userName]; ok {
 		return
 	} else {
-		Balance[userName] = c.initialBalanceAmount
+		Balance[userName] = d.initialBalanceAmount
 	}
 }
 
-func NewData(initialBalanceAmount, minimumBalanceAmount int) IData {
+func (d *Data) PostWalletInfo(userName string) int {
+	if d.balance > 0 {
+		Balance[userName] += d.balance
+	} else {
+		if (Balance[userName] + d.balance) >= d.minimumBalanceAmount {
+			Balance[userName] += d.balance
+		} else {
+			return http.StatusInternalServerError
+		}
+	}
+	return http.StatusOK
+}
+
+func NewData(initialBalanceAmount, minimumBalanceAmount, balance int) IData {
 	return &Data{initialBalanceAmount: initialBalanceAmount,
-		minimumBalanceAmount: minimumBalanceAmount}
+		minimumBalanceAmount: minimumBalanceAmount,
+		balance:              balance}
 }

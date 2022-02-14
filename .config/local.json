@@ -1,4 +1,5 @@
 {
     "initialBalanceAmount": 0,
-    "minimumBalanceAmount": -100
-}
+    "minimumBalanceAmount": -100,
+    "balance": 101
+} 

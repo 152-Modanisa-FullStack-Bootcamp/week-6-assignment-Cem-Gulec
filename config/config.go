@@ -9,6 +9,7 @@ import (
 type Config struct {
 	InitialBalanceAmount int `json:"initialBalanceAmount"`
 	MinimumBalanceAmount int `json:"minimumBalanceAmount"`
+	Balance              int `json:"balance"`
 }
 
 var c = &Config{}

@@ -31,7 +31,6 @@ func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 	// r.URL.Path -> params
 	// r.Method -> GET, POST, PUT
 	if r.Method == "GET" {
-		// "GET /" endpoint
 		if userName == "/" {
 			response = c.getService.AllBalanceInfo()
 		} else {
@@ -39,7 +38,6 @@ func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 			response = c.getService.BalanceInfo(userName)
 		}
 	} else if r.Method == "PUT" {
-		// "PUT /" endpoint -> not valid
 		if userName == "/" {
 			return
 		} else {
@@ -47,8 +45,17 @@ func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 			c.putService.SetWallet(userName)
 		}
 	} else if r.Method == "POST" {
-		return
+		if userName == "/" {
+			return
+		} else {
+			// "POST /:username/{balance}" endpoint
+			errType := c.postService.UpdateWallet(userName)
+			if errType == 500 {
+				response = "PostService: Internal Server Error"
+			}
+		}
 	} else {
+		// for now only allowing GET, PUT and POST
 		return
 	}
 
