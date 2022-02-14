@@ -10,14 +10,19 @@ import (
 )
 
 func main() {
-	initialBalanceAmount := config.C.InitialBalanceAmount
-	minimumBalanceAmount := config.C.MinimumBalanceAmount
+	initialBalanceAmount := config.Get().InitialBalanceAmount
+	minimumBalanceAmount := config.Get().MinimumBalanceAmount
 	data := data.NewData(initialBalanceAmount, minimumBalanceAmount)
 
+	fmt.Println(data.GetAllBalanceInfo())
+
 	getService := service.NewGetService(data)
-	handler := handler.NewHandler(getService)
+	putService := service.NewPutService(data)
+	postService := service.NewPostService(data)
+	handler := handler.NewHandler(getService, putService, postService)
 
 	http.HandleFunc("/", handler.Wallet)
+	http.HandleFunc("/:username", handler.Wallet)
 	err := http.ListenAndServe(":8080", nil)
 
 	if err != nil {

@@ -1,17 +1,29 @@
 package service
 
-import "bootcamp/data"
+import (
+	"bootcamp/data"
+	"fmt"
+)
 
 type IGetService interface {
-	BalanceInfo(string) string
+	BalanceInfo(string) (map[string]int, error)
 }
 
 type GetService struct {
 	Data data.IData
 }
 
-func (*GetService) BalanceInfo(s string) string {
-	return "hello, " + s
+func (s *GetService) BalanceInfo(userName string) (map[string]int, error) {
+
+	// "GET /" endpoint
+	if userName == "/" {
+		//return s.Data.GetAllBalanceInfo()
+		return nil, nil
+	} else {
+		// "GET /:username" endpoint
+		fmt.Println("olmadı")
+		return nil, nil
+	}
 }
 
 func NewGetService(data data.IData) IGetService {

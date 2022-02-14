@@ -11,7 +11,7 @@ type Config struct {
 	MinimumBalanceAmount int `json:"minimumBalanceAmount"`
 }
 
-var C = &Config{}
+var c = &Config{}
 
 func init() {
 	file, err := os.Open(".config/" + env + ".json")
@@ -27,9 +27,13 @@ func init() {
 		panic(err)
 	}
 
-	err = json.Unmarshal(read, C)
+	err = json.Unmarshal(read, c)
 
 	if err != nil {
 		panic(err)
 	}
+}
+
+func Get() *Config {
+	return c
 }

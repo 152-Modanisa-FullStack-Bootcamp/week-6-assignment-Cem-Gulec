@@ -10,22 +10,32 @@ type IHandler interface {
 }
 
 type Handler struct {
-	service service.IGetService
+	getService  service.IGetService
+	putService  service.IPutService
+	postService service.IPostService
 }
 
 func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 
-	/*// validation stage
-	if r.Method != "GET" {
-		return
-	}*/
+	//var response map[string]int
 
-	result := c.service.BalanceInfo(r.URL.Path)
+	// validation stage
+	// r.URL.Path -> params
+	// r.Method -> GET, POST, PUT
+	if r.Method == "GET" {
+		//response, _ = c.getService.BalanceInfo(r.URL.Path)
+	} else if r.Method == "PUT" {
+		return
+	} else if r.Method == "POST" {
+		return
+	} else {
+		return
+	}
 
 	// formatting stage
-	w.Write([]byte(result))
+	w.Write([]byte("response"))
 }
 
-func NewHandler(service service.IGetService) IHandler {
-	return &Handler{service: service}
+func NewHandler(getService service.IGetService, putService service.IPutService, postService service.IPostService) IHandler {
+	return &Handler{getService: getService, putService: putService, postService: postService}
 }

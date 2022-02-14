@@ -1,7 +1,12 @@
 package data
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type IData interface {
-	GetBalanceInfo() (int, error)
+	GetAllBalanceInfo() (string, error)
 }
 
 type Data struct {
@@ -9,13 +14,32 @@ type Data struct {
 	minimumBalanceAmount int
 }
 
+type User struct {
+	UserName string
+	Balance  int
+}
+
 // key: username
 // value: balance
-var Balance = map[string]int{}
+Balance := map[string]int{}
+Balance := make([]User, N)
 
-func (c *Data) GetBalanceInfo() (int, error) {
+func (c *Data) GetAllBalanceInfo() (string, error) {
 
-	return Balance["cem"], nil
+	Balance["cem"] = 123
+	Balance["rıfkı"] = 45
+	mapJsonFormat, err := json.Marshal(Balance)
+
+	if err != nil {
+		panic(err)
+	}
+
+	r := &model.DataResponse{}
+	err = json.Unmarshal(mapJsonFormat, r)
+
+	fmt.Println(r)
+
+	return *r, err
 }
 
 func NewData(initialBalanceAmount, minimumBalanceAmount int) IData {
