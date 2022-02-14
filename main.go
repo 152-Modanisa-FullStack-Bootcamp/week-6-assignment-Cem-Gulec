@@ -14,8 +14,6 @@ func main() {
 	minimumBalanceAmount := config.Get().MinimumBalanceAmount
 	data := data.NewData(initialBalanceAmount, minimumBalanceAmount)
 
-	fmt.Println(data.GetAllBalanceInfo())
-
 	getService := service.NewGetService(data)
 	putService := service.NewPutService(data)
 	postService := service.NewPostService(data)

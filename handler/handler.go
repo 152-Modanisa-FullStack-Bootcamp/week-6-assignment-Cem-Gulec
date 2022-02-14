@@ -2,6 +2,7 @@ package handler
 
 import (
 	service "bootcamp/services"
+	"fmt"
 	"net/http"
 )
 
@@ -17,13 +18,13 @@ type Handler struct {
 
 func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 
-	//var response map[string]int
+	response := ""
 
 	// validation stage
 	// r.URL.Path -> params
 	// r.Method -> GET, POST, PUT
 	if r.Method == "GET" {
-		//response, _ = c.getService.BalanceInfo(r.URL.Path)
+		response, _ = c.getService.BalanceInfo(r.URL.Path)
 	} else if r.Method == "PUT" {
 		return
 	} else if r.Method == "POST" {
@@ -33,9 +34,12 @@ func (c *Handler) Wallet(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// formatting stage
-	w.Write([]byte("response"))
+	//w.Write([]byte(string(response["cem"])))
+	fmt.Println(response)
 }
 
 func NewHandler(getService service.IGetService, putService service.IPutService, postService service.IPostService) IHandler {
-	return &Handler{getService: getService, putService: putService, postService: postService}
+	return &Handler{getService: getService,
+		putService:  putService,
+		postService: postService}
 }

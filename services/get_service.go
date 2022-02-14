@@ -2,27 +2,24 @@ package service
 
 import (
 	"bootcamp/data"
-	"fmt"
 )
 
 type IGetService interface {
-	BalanceInfo(string) (map[string]int, error)
+	BalanceInfo(string) (string, error)
 }
 
 type GetService struct {
 	Data data.IData
 }
 
-func (s *GetService) BalanceInfo(userName string) (map[string]int, error) {
+func (s *GetService) BalanceInfo(userName string) (string, error) {
 
 	// "GET /" endpoint
 	if userName == "/" {
-		//return s.Data.GetAllBalanceInfo()
-		return nil, nil
+		return s.Data.GetAllBalanceInfo()
 	} else {
 		// "GET /:username" endpoint
-		fmt.Println("olmadı")
-		return nil, nil
+		return s.Data.GetBalanceInfo(userName[1:])
 	}
 }
 
