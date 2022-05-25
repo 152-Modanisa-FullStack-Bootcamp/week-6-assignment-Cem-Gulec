@@ -1,5 +1,13 @@
 # Week 6 Assignment
 
+## TODO
+* error döndürmeler
+* düzgün data structure yapısı kullanılması
+* bunu unmarshal etmek gerekebilir
+* handler formatting
+* testler için coverage
+* response dönmüyor şu anda sadece str basıyor
+
 In this assignment, we expect to you develop a configurable backend service that having the following business requirements:
 
 First of all, see [configuration file for local environment.](.config/local.json)
